@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cyber Law, Risk and Compliance (Paper 1) - Interactive Syllabus Web Application for Semester 5 Forensic Science, Cybersecurity Specialization, National Forensic Sciences University.">
+  <title>🌸 Cyber Law, Risk & Compliance | Semester 5 Forensic Science</title>
+  
+  <!-- Cute & Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+</head>
+<body>
+  <!-- ====================================================================
+       AUTHENTICATION / LOGIN & REGISTRATION GATEWAY (CUTE AESTHETIC 🌸✨)
+       ==================================================================== -->
+  <div class="auth-screen" id="auth-screen">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-badge">
+          <span class="auth-pulse-dot"></span>
+          <span>🌸 NFSU Cyber Portal ✨</span>
+        </div>
+        <div class="auth-logo-icon">⚖️</div>
+        <h2 class="auth-title">National Forensic Sciences University</h2>
+        <p class="auth-subtitle">School of Forensic Science • Specialization in Cybersecurity</p>
+        <p class="auth-course">Semester 5 — Paper 1: Cyber Law, Risk & Compliance</p>
+      </div>
+
+      <!-- Auth Mode Switcher (Sign In vs Create Account) -->
+      <div class="auth-mode-switch">
+        <button type="button" class="mode-tab active" id="tab-login" onclick="switchAuthMode('login')">
+          <span>🎀 Sign In</span>
+        </button>
+        <button type="button" class="mode-tab" id="tab-register" onclick="switchAuthMode('register')">
+          <span>✨ Create Account</span>
+        </button>
+      </div>
+
+      <!-- Success Notification Banner -->
+      <div id="auth-success-msg" class="auth-success-msg"></div>
+
+      <!-- ==========================================
+           1. SIGN IN FORM
+           ========================================== -->
+      <div id="auth-login-container">
+        <!-- Role Selector Tabs -->
+        <div class="auth-role-tabs">
+          <button type="button" class="role-tab active" id="role-tab-student" onclick="setLoginRole('student')">
+            <span class="role-icon">🎓</span>
+            <span>Forensic Student</span>
+          </button>
+          <button type="button" class="role-tab" id="role-tab-auditor" onclick="setLoginRole('auditor')">
+            <span class="role-icon">🛡️</span>
+            <span>Lead Assessor</span>
+          </button>
+        </div>
+
+        <form class="auth-form" id="login-form" onsubmit="handleLoginSubmit(event)">
+          <div class="form-group">
+            <label for="login-id" class="form-label" id="label-login-id">Student ID / Institutional Email</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input type="text" id="login-id" class="form-input" placeholder="student@nfsu.ac.in" required autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="login-password" class="form-label">Access Passcode</label>
+              <span class="pass-hint" id="pass-hint" title="Default passcode for testing: cyber2026">Demo: cyber2026</span>
+            </div>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-pass" onclick="togglePasswordVisibility('login-password', this)" title="Show/Hide Password">👁️</button>
+            </div>
+          </div>
+
+          <div class="form-meta-row">
+            <label class="remember-wrap">
+              <input type="checkbox" id="login-remember" checked>
+              <span>Keep me signed in</span>
+            </label>
+            <span class="security-level">AES-256 Protected</span>
+          </div>
+
+          <div id="login-error-msg" class="auth-error-msg"></div>
+
+          <button type="submit" class="btn-auth-submit" id="btn-auth-submit">
+            <span>Enter Study Portal 🚀</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </form>
+
+        <!-- Quick Fill Demo Profiles -->
+        <div class="auth-demo-section">
+          <div class="demo-heading">Instant Quick-Fill Demo Profiles</div>
+          <div class="demo-chips">
+            <button type="button" class="demo-chip" onclick="fillDemo('student')">
+              <span>🎓 Student (FS-2024-501)</span>
+            </button>
+            <button type="button" class="demo-chip" onclick="fillDemo('auditor')">
+              <span>🛡️ Lead Assessor (AUD-NFSU-09)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           2. CREATE NEW ACCOUNT FORM (DATABASE ADD)
+           ========================================== -->
+      <div id="auth-register-container" style="display: none;">
+        <form class="auth-form" id="register-form" onsubmit="handleRegisterSubmit(event)">
+          <!-- Cute Avatar Choice -->
+          <div>
+            <span class="avatar-picker-label">Choose Your Cute Forensic Avatar:</span>
+            <div class="avatar-options">
+              <button type="button" class="avatar-choice-btn selected" data-avatar="🐰" onclick="selectAvatar('🐰', this)">🐰</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="🐱" onclick="selectAvatar('🐱', this)">🐱</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="🦊" onclick="selectAvatar('🦊', this)">🦊</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="🐼" onclick="selectAvatar('🐼', this)">🐼</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="🦄" onclick="selectAvatar('🦄', this)">🦄</button>
+              <button type="button" class="avatar-choice-btn" data-avatar="🐻" onclick="selectAvatar('🐻', this)">🐻</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-name" class="form-label">Full Name</label>
+            <div class="input-wrap">
+              <span class="input-icon">✨</span>
+              <input type="text" id="reg-name" class="form-input" placeholder="e.g. Ananya Sharma" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="reg-email" class="form-label">Email Address / ID</label>
+              <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input type="email" id="reg-email" class="form-input" placeholder="ananya@nfsu.ac.in" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-roll" class="form-label">Roll Number / Student ID</label>
+              <div class="input-wrap">
+                <span class="input-icon">🏷️</span>
+                <input type="text" id="reg-roll" class="form-input" placeholder="FS-2024-518" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="reg-spec" class="form-label">Academic Specialization</label>
+              <select id="reg-spec" class="form-select">
+                <option value="Cybersecurity">Cybersecurity Specialization</option>
+                <option value="Digital Forensics">Digital Forensics</option>
+                <option value="Cyber Law & Compliance">Cyber Law & Compliance</option>
+                <option value="Incident Response">Incident Response</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-role" class="form-label">Account Role</label>
+              <select id="reg-role" class="form-select">
+                <option value="Forensic Student (Sem 5)">Forensic Student (Sem 5)</option>
+                <option value="Lead Assessor / Faculty">Lead Assessor / Faculty</option>
+                <option value="Digital Forensic Examiner">Digital Forensic Examiner</option>
+                <option value="Research Scholar">Research Scholar</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label for="reg-password" class="form-label">Create Passcode</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="reg-password" class="form-input" placeholder="Min. 4 characters" required>
+                <button type="button" class="btn-toggle-pass" onclick="togglePasswordVisibility('reg-password', this)">👁️</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reg-confirm-password" class="form-label">Confirm Passcode</label>
+              <div class="input-wrap">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="reg-confirm-password" class="form-input" placeholder="Confirm passcode" required>
+                <button type="button" class="btn-toggle-pass" onclick="togglePasswordVisibility('reg-confirm-password', this)">👁️</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="reg-error-msg" class="auth-error-msg"></div>
+
+          <button type="submit" class="btn-auth-submit" id="btn-reg-submit">
+            <span>✨ Create Account & Add to Database 💾</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Database Inspector Link -->
+      <div class="auth-db-link-wrap">
+        <button type="button" class="btn-db-inspect" onclick="openDatabaseModal()">
+          <span>📁 View Registered Users Database</span>
+          <span class="badge-db-count" id="badge-db-count" style="background: var(--bg-surface); padding: 2px 7px; border-radius: var(--radius-full); font-size: 0.7rem; color: var(--accent-pink);">2 Users</span>
+        </button>
+      </div>
+
+      <!-- Legal Statutory Notice -->
+      <div class="auth-legal-notice">
+        <strong>⚠️ MANDATORY STATUTORY WARNING</strong>
+        <p>This portal is protected and monitored under the Information Technology Act, 2000 (Sections 43, 66, and 70). Unauthorized access or tampering with forensic logs constitutes a cognizable criminal offense.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MAIN APPLICATION LAYOUT
+       ==================================================================== -->
+  <div class="app-layout" id="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-badge">🌸 NFSU • Cyber Law & Risk</div>
+        <div class="brand-title">Cyber Law, Risk & Compliance</div>
+        <div class="brand-subtitle">Course Syllabus Portal (Paper 1)</div>
+        <div class="course-meta">
+          <span><strong>Class:</strong> Semester 5, Forensic Science</span>
+          <span><strong>Spec:</strong> Cybersecurity Specialization</span>
+          <span><strong>Assessment:</strong> TA2 Project (Localhost)</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Navigation Hub 🌸</div>
+        <a class="nav-item active" data-target="overview" href="#overview">
+          <span class="icon">📊</span>
+          <span>Course Dashboard</span>
+        </a>
+
+        <div class="nav-section-title">Syllabus Units ✨</div>
+        <a class="nav-item" data-target="unit1" href="#unit1">
+          <span class="icon">🔍</span>
+          <span>Unit I: Assessments & Audits</span>
+          <span class="unit-badge">15h</span>
+        </a>
+
+        <a class="nav-item" data-target="unit2" href="#unit2">
+          <span class="icon">🛡️</span>
+          <span>Unit II: 7 IT Domains & Baselines</span>
+          <span class="unit-badge">15h</span>
+        </a>
+
+        <a class="nav-item" data-target="unit3" href="#unit3">
+          <span class="icon">📈</span>
+          <span>Unit III: Risk Analysis & BCP</span>
+          <span class="unit-badge">15h</span>
+        </a>
+
+        <a class="nav-item" data-target="unit4" href="#unit4">
+          <span class="icon">⚖️</span>
+          <span>Unit IV: DR, Laws & Standards</span>
+          <span class="unit-badge">15h</span>
+        </a>
+
+        <div class="nav-section-title">Practical & Exam Tools 🎀</div>
+        <a class="nav-item" data-target="tools" href="#tools">
+          <span class="icon">🛠️</span>
+          <span>Risk Calculator & Tools</span>
+        </a>
+
+        <a class="nav-item" data-target="quiz" href="#quiz">
+          <span class="icon">📝</span>
+          <span>Practice Quiz (MCQs)</span>
+        </a>
+      </nav>
+
+      <!-- Active User Profile in Sidebar -->
+      <div class="sidebar-user-card" id="sidebar-user-card">
+        <div class="sidebar-user-avatar" id="sidebar-user-avatar">🐰</div>
+        <div class="sidebar-user-meta">
+          <div class="sidebar-user-name" id="sidebar-user-name">Forensic Student</div>
+          <div class="sidebar-user-sub" id="sidebar-user-sub">FS-2024-501</div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <span>Semester 5 • TA2 Project</span>
+        <span style="color: var(--accent-pink); font-weight: 700;">v2.0 Cute</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <main class="main-content">
+      <!-- Top Application Header -->
+      <header class="top-header">
+        <button class="mobile-toggle" id="mobile-menu-btn" title="Toggle Navigation">☰</button>
+
+        <div class="search-box">
+          <span style="color: var(--text-muted); font-size: 1rem;">🔍</span>
+          <input type="text" id="global-search" placeholder="Search topics, IT Act sections, CAATs, domains...">
+        </div>
+
+        <div class="header-actions">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>Localhost Active 🌸</span>
+          </div>
+
+          <!-- View Database Button in Header -->
+          <button class="btn-icon" onclick="openDatabaseModal()" title="View Registered Users Database">📁</button>
+
+          <!-- Cute Theme Toggle Button -->
+          <button class="btn-icon" id="theme-toggle-btn" title="Toggle Pastel / Twilight Theme">🌙</button>
+
+          <!-- User Profile & Sign Out Button -->
+          <div class="user-profile-widget" id="user-profile-widget">
+            <div class="user-avatar" id="header-user-avatar">🐰</div>
+            <div class="user-info-text">
+              <span class="user-display-name" id="header-user-name">Forensic Student</span>
+              <span class="user-role-badge" id="header-user-role">Student</span>
+            </div>
+            <button class="btn-logout" onclick="handleLogout()" title="Sign Out of Portal">
+              <span>Sign Out</span>
+              <span style="font-size: 0.85rem;">🚪</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Content Body -->
+      <div class="content-body" id="content-container">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </main>
+  </div>
+
+  <!-- ====================================================================
+       DATABASE INSPECTOR MODAL (SHOWS ALL USERS IN DATABASE)
+       ==================================================================== -->
+  <div class="modal-overlay" id="db-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-subtitle">📁 NFSU System Records</span>
+          <h3 class="modal-title">Registered Users Database</h3>
+        </div>
+        <button class="modal-close" onclick="closeDatabaseModal()" title="Close (ESC)">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">
+            Real-time registered users stored in database: <strong id="db-modal-total-count" style="color: var(--accent-pink);">2 Accounts</strong>
+          </p>
+          <span style="font-size: 0.75rem; background: var(--bg-surface); padding: 4px 10px; border-radius: var(--radius-full); color: var(--accent-mint); font-weight: 700;">
+            ● Live Local Database Synced
+          </span>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="content-table" id="db-users-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>User</th>
+                <th>Roll No / ID</th>
+                <th>Role</th>
+                <th>Specialization</th>
+                <th>Registered At</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="db-users-tbody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Users are permanently added to database records upon registration.</span>
+        <button class="btn-primary" onclick="closeDatabaseModal()">Close Inspector</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       IN-DEPTH TOPIC MODAL
+       ==================================================================== -->
+  <div class="modal-overlay" id="detail-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-subtitle" id="modal-topic-code">UNIT - I • SEC-101 • Assessment</span>
+          <h3 class="modal-title" id="modal-topic-title">Topic Title</h3>
+        </div>
+        <button class="modal-close" id="modal-close-btn" title="Close (ESC)">✕</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="concepts">Core Concepts & Notes</button>
+        <button class="modal-tab" data-tab="legal">Legal & Regulatory Relevance</button>
+        <button class="modal-tab" data-tab="checklist">Forensic & Audit Checklist</button>
+      </div>
+
+      <div class="modal-body" id="modal-body-content">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div class="modal-footer">
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Press <kbd style="background: var(--bg-surface); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-color);">ESC</kbd> to exit detail view</span>
+        <button class="btn-primary" onclick="closeModal()">Close Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
