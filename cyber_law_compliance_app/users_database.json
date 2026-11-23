@@ -1,0 +1,26 @@
+[
+  {
+    "id": "USR-1001",
+    "name": "Forensic Student",
+    "email": "student@nfsu.ac.in",
+    "rollNo": "FS-2024-501",
+    "role": "Forensic Student (Sem 5)",
+    "specialization": "Cybersecurity",
+    "avatar": "🐰",
+    "password": "cyber2026",
+    "createdAt": "2026-11-20T10:00:00.000Z",
+    "status": "Active"
+  },
+  {
+    "id": "USR-1002",
+    "name": "Dr. V. K. Raman",
+    "email": "auditor@nfsu.ac.in",
+    "rollNo": "AUD-NFSU-09",
+    "role": "Lead Assessor / Faculty",
+    "specialization": "Digital Forensics & Cyber Law",
+    "avatar": "🦊",
+    "password": "audit2026",
+    "createdAt": "2026-11-20T10:15:00.000Z",
+    "status": "Active"
+  }
+]
